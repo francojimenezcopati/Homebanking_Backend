@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -8,8 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+
 import java.util.HashSet;
+
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity  // JPA crea una tabla en la base de datos con todas las variables que haya en la clase "Client"
 // (Columnas: cada variable //Filas: Lo que contiene cada variable)
@@ -26,6 +30,9 @@ public class Client {
             , fetch = FetchType.EAGER)
     private Set<Account> accounts = new HashSet<>();
 
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    private Set<ClientLoan> clientLoans = new HashSet<>();
+
     public Client() {
     }
 
@@ -33,6 +40,28 @@ public class Client {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public Set<ClientLoan> getClientLoans() {
+        return clientLoans;
+    }
+
+    public void setClientLoans(Set<ClientLoan> clientLoans) {
+        this.clientLoans = clientLoans;
+    }
+
+    @JsonIgnore
+    public Set<Loan> getLoans(){
+        return clientLoans.stream().map(ClientLoan::getLoan).collect(Collectors.toSet());
+    }
+
+    public void addLoan(ClientLoan loan) {
+        loan.setClient(this);
+        clientLoans.add(loan);
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public Set<Account> getAccounts() {
