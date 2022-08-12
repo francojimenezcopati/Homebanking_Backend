@@ -1,5 +1,5 @@
 .account{
-    background: linear-gradient(45deg,red,orange,yellow,green,blue,indigo,violet);
+    background: linear-gradient(45deg,#ee0979,#ff6a00);
     color: white;
     box-shadow: 1px 1px 5px black;
 }
@@ -30,7 +30,12 @@
    color: red;
 }
 
-.loan{
-    background: linear-gradient(45deg,#05F4F8,#8207D6);
+.loans{
+    background: linear-gradient(45deg,#ee09cf,#0026ff);
     color: white;
+}
+
+.menu-logo{
+    width: 30px;
+    height: 30px;
 }
