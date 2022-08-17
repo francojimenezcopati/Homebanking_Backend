@@ -2,16 +2,21 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @SpringBootApplication
 public class HomebankingApplication {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public static void main(String[] args) {
         SpringApplication.run(HomebankingApplication.class, args);
         System.out.println("Bienvenido a mi primer servidor");
@@ -22,8 +27,8 @@ public class HomebankingApplication {
                                       LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
         return (args) -> // deavuevle los argumentos que le pase a continuacion
         {
-            Client client1 = new Client( "Melba",   "Morel", "melba@mindhub.com");
-            Client client2 = new Client( "Irene",   "Saenz", "irene@mindhub.com");
+            Client client1 = new Client( "Melba",   "Morel", "melba@mindhub.com", passwordEncoder.encode("123"));
+            Client client2 = new Client( "Irene",   "Saenz", "irene@mindhub.com", passwordEncoder.encode("321"));
 
             Account account1 = new Account(   "VIN001", LocalDateTime.now(),5000);
             Account account2 = new Account(   "VIN002", LocalDateTime.now().plusDays(1), 7500);
