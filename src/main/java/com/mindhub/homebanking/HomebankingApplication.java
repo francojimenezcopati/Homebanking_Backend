@@ -85,9 +85,9 @@ public class HomebankingApplication {
             clientLoanRepository.save(clientLoan3);
             clientLoanRepository.save(clientLoan4);
 
-            Card card1=new Card(client1,CardType.DEBIT,CardColor.GOLD,client1.getFirstName()+" "+ client1.getLastName(),"8394-3457-3756-4850",314,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
-            Card card2=new Card(client1,CardType.CREDIT,CardColor.TITANIUM,client1.getFirstName()+" "+ client1.getLastName(),"4326-1894-4618-9574",819,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
-            Card card3=new Card(client2,CardType.CREDIT,CardColor.SILVER,client2.getFirstName()+" "+ client2.getLastName(),"5173-1471-4618-7398",666,LocalDateTime.now(),LocalDateTime.now().plusYears(7));
+            Card card1=new Card(client1,CardType.DEBIT,CardColor.GOLD,"8394-3457-3756-4850",314,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card2=new Card(client1,CardType.CREDIT,CardColor.TITANIUM,"4326-1894-4618-9574",819,LocalDateTime.now(),LocalDateTime.now().plusYears(5));
+            Card card3=new Card(client2,CardType.CREDIT,CardColor.SILVER,"5173-1471-4618-7398",666,LocalDateTime.now(),LocalDateTime.now().plusYears(7));
 
             cardRepository.save(card1);
             cardRepository.save(card2);

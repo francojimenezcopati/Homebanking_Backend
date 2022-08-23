@@ -29,6 +29,14 @@ var app = new Vue({
                 this.errorToats.show();
             })
         },
+        create: function(){
+            axios.post('http://localhost:8080/api/clients/current/accounts')
+            .then(response => window.location.reload())
+            .catch((error) =>{
+                this.errorMsg = error.response.data;  
+                this.errorToats.show();
+            })
+        }
     },
     mounted: function(){
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));

@@ -10,7 +10,7 @@ const app = new Vue({
     methods:{
         // load and display JSON sent by server for /clients
         loadData: function() {
-            axios.get("/rest/clients")
+            axios.get("/clients")
             .then(function (response) {
                 // handle success
                 app.outPut = response.data;
@@ -30,7 +30,7 @@ const app = new Vue({
         // code to post a new player using AJAX
         // on success, reload and display the updated data from the server
         postPlayer: function(email, firstName, lastName) {
-             axios.post("/rest/clients",{ "email":email, "firstName": firstName, "lastName": lastName })
+             axios.post("clients",{ "email":email, "firstName": firstName, "lastName": lastName })
             .then(function (response) {
                 // handle success
                 showOutput = "Saved -- reloading";

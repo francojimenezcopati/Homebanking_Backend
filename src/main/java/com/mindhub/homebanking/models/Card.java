@@ -5,6 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static com.mindhub.homebanking.utils.CardUtils.generateCardNumber;
+
 @Entity
 public class Card {
     @Id
@@ -33,17 +35,27 @@ public class Card {
     public Card() {
     }
 
-    public Card(Client client, CardType type, CardColor color, String cardHolder, String number, int cvv, LocalDateTime fromDate, LocalDateTime thruDate) {
+    public Card(Client client, CardType type, CardColor color, String number, int cvv, LocalDateTime fromDate, LocalDateTime thruDate) {
         this.client = client;
         this.type = type;
         this.color = color;
-        this.cardHolder = cardHolder;
+        this.cardHolder = client.getFullName();
         this.number = number;
         this.cvv = cvv;
         this.fromDate = fromDate;
         this.thruDate = thruDate;
     }
 
+    public Card(Client client, CardType type, CardColor color) {
+        this.client = client;
+        this.type = type;
+        this.color = color;
+        this.cardHolder = client.getFullName();
+        this.number = generateCardNumber(1000,9999);
+        this.cvv = ((int)((Math.random()*(999-100))+100));
+        this.fromDate = LocalDateTime.now();
+        this.thruDate = LocalDateTime.now().plusYears(5);
+    }
     public Card(Client client1, CardType credit, CardColor gold, String s, String s1) {
     }
 
