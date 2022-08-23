@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mindhub.homebanking.utils.AccountUtils.generateAccountNumber;
+
 @RestController
 @RequestMapping ("/api")
 public class AccountController {
@@ -42,14 +44,9 @@ public class AccountController {
         if(client.getAccounts().size() >= 3){
             return new ResponseEntity<>("403 forbidden", HttpStatus.FORBIDDEN);
         }
-        Account account = new Account(generateAccountNumber(),0);
+        Account account = new Account(generateAccountNumber(99999999,10000000,accountRepository),0);
         client.addAccount(account);
         accountRepository.save(account);
         return new ResponseEntity<>("201 created",HttpStatus.CREATED);
     }
-
-    public String generateAccountNumber(){
-        return "VIN"+((int)((Math.random()*(99999999-10000000))+10000000));
-    }
-
 }

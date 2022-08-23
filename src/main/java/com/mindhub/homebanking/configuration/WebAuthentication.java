@@ -2,6 +2,7 @@ package com.mindhub.homebanking.configuration;
 
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.ClientRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,7 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.userDetailsService(inputName -> {
+        auth.userDetailsService(inputName-> {
             Client client = clientRepository.findByEmail(inputName);
             if (client != null) {
                 if(inputName.contains("@admin.com")){
