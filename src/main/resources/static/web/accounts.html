@@ -30,18 +30,24 @@
                         </a>
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a href="/web/accounts.html" class="nav-link active">
-                                <i class="bi bi-inboxes"></i>
-                                Accounts
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/web/cards.html" class="nav-link link-dark">
-                                <i class="bi bi-credit-card"></i>
-                                Cards
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="/web/accounts.html" class="nav-link active">
+                                    <i class="bi bi-inboxes"></i>
+                                    Accounts
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/web/cards.html" class="nav-link link-dark">
+                                    <i class="bi bi-credit-card"></i>
+                                    Cards
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/web/transfers.html" class="nav-link link-dark">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Transfers
+                                </a>
+                            </li>
                         </ul>
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto">
@@ -76,11 +82,11 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <h2 class="display-6">Credits</h2>
+                            <h2 class="display-6">Loans</h2>
                         </div>
                     </div>
                     <div class="row">
-                        <div v-for="credit in clientInfo.credits" class="col-12 col-md-3 mt-2">
+                        <div v-for="credit in clientInfo.loans" class="col-12 col-md-3 mt-2">
                             <div class="card border-0 credit">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ credit.name }}</h5>

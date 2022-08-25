@@ -27,7 +27,7 @@ public class CardController {
     private ClientRepository clientRepository;
 
     @RequestMapping("/cards")
-    public List<CardDTO> getAccounts(){
+    public List<CardDTO> getCards(){
         return this.cardRepository.findAll().stream().map(CardDTO::new).collect(Collectors.toList());
     }
 

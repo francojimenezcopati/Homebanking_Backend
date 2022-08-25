@@ -47,14 +47,14 @@ public class HomebankingApplication {
             accountRepository.save(account3);
             accountRepository.save(account4);
 
-            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 2000, "transferencia recibida" ,LocalDateTime.now(), account1);
-            Transaction transaction2 = new Transaction(TransactionType.DEBIT, -4000, "Compra tienda xx" ,LocalDateTime.now(), account1);
-            Transaction transaction3 = new Transaction(TransactionType.CREDIT, 1000, "transferencia recibida" ,LocalDateTime.now(), account2);
-            Transaction transaction4 = new Transaction(TransactionType.DEBIT, -200, "Compra tienda xy" ,LocalDateTime.now(), account2);
-            Transaction transaction5 = new Transaction(TransactionType.CREDIT, 8000, "transferencia recibida" ,LocalDateTime.now(), account3);
-            Transaction transaction6 = new Transaction(TransactionType.DEBIT, -2000, "Compra tienda xz" ,LocalDateTime.now(), account3);
-            Transaction transaction7 = new Transaction(TransactionType.CREDIT, 700, "transferencia recibida" ,LocalDateTime.now(), account4);
-            Transaction transaction8 = new Transaction(TransactionType.DEBIT, -2000, "Compra tienda xi" ,LocalDateTime.now(), account4);
+            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 2000, "transferencia recibida" , account1);
+            Transaction transaction2 = new Transaction(TransactionType.DEBIT, -4000, "Compra tienda xx" , account1);
+            Transaction transaction3 = new Transaction(TransactionType.CREDIT, 1000, "transferencia recibida" , account2);
+            Transaction transaction4 = new Transaction(TransactionType.DEBIT, -200, "Compra tienda xy" , account2);
+            Transaction transaction5 = new Transaction(TransactionType.CREDIT, 8000, "transferencia recibida" , account3);
+            Transaction transaction6 = new Transaction(TransactionType.DEBIT, -2000, "Compra tienda xz" , account3);
+            Transaction transaction7 = new Transaction(TransactionType.CREDIT, 700, "transferencia recibida" , account4);
+            Transaction transaction8 = new Transaction(TransactionType.DEBIT, -2000, "Compra tienda xi" , account4);
 
             transactionRepository.save(transaction1);
             transactionRepository.save(transaction2);
