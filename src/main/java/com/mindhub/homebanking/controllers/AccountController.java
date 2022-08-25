@@ -11,11 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.mindhub.homebanking.utils.AccountUtils.generateAccountNumber;
 
 @RestController
 @RequestMapping ("/api")
@@ -36,20 +39,22 @@ public class AccountController {
         return this.accountRepository.findById(id).map(AccountDTO::new).orElse(null);
     }
 
-    @RequestMapping("/clients/current/accounts")
+    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.GET)
+    public List<AccountDTO> getCurrentClientAccounts(Authentication authentication){
+        Client client = clientRepository.findByEmail(authentication.getName());
+        return client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
+    }
+
+    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> createAccount(Authentication authentication){
         Client client=this.clientRepository.findByEmail(authentication.getName());
         if(client.getAccounts().size() >= 3){
             return new ResponseEntity<>("403 forbidden", HttpStatus.FORBIDDEN);
         }
-        Account account = new Account(generateAccountNumber(),0);
+        Account account = new Account(generateAccountNumber(99999999,10000000,accountRepository),0);
         client.addAccount(account);
         accountRepository.save(account);
+
         return new ResponseEntity<>("201 created",HttpStatus.CREATED);
     }
-
-    public String generateAccountNumber(){
-        return "VIN"+((int)((Math.random()*(99999999-10000000))+10000000));
-    }
-
 }

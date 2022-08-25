@@ -64,7 +64,7 @@ public class ClientController {
 
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         clientRepository.save(client);
-        Account account = new Account(generateAccountNumber(10000000,99999999),0);
+        Account account = new Account(generateAccountNumber(10000000,99999999, accountRepository),0);
         client.addAccount(account);
         accountRepository.save(account);
         return new ResponseEntity<>(HttpStatus.CREATED);

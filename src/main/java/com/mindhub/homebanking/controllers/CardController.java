@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mindhub.homebanking.utils.CardUtils.generateCardNumber;
+
 @RestController
 @RequestMapping("/api")
 public class CardController {
@@ -25,7 +27,7 @@ public class CardController {
     private ClientRepository clientRepository;
 
     @RequestMapping("/cards")
-    public List<CardDTO> getAccounts(){
+    public List<CardDTO> getCards(){
         return this.cardRepository.findAll().stream().map(CardDTO::new).collect(Collectors.toList());
     }
 
@@ -36,13 +38,12 @@ public class CardController {
     }
 
     @RequestMapping(path= "/clients/current/cards", method = RequestMethod.POST) /////////////////////////////////////////////////////////////////////////// problema
-    public ResponseEntity<Object> createCard(Authentication authentication, @RequestParam CardColor cardColor, @RequestParam CardType cardType){
+    public ResponseEntity<Object> createCard(Authentication authentication, @RequestParam CardType cardType, @RequestParam CardColor cardColor){
         Client client=this.clientRepository.findByEmail(authentication.getName());
-        if (cardRepository.findByClientAndType(client, cardType).size()>=3){
+        if (cardRepository.findByClientAndType(client, cardType).size()>=3) {
             return new ResponseEntity<>("403 forbidden", HttpStatus.FORBIDDEN);
         }
-
-        cardRepository.save(new Card(client, cardType, cardColor));
+        cardRepository.save(new Card(client, cardType, cardColor, generateCardNumber(1000,9999, cardRepository)));
         return new ResponseEntity<>("201 created",HttpStatus.CREATED);
     }
 }
