@@ -44,37 +44,38 @@ public class TransactionController {
 
         Client client = this.clientRepository.findByEmail(authentication.getName());
 
+        Account fromAccount = accountRepository.findByNumber(fromAccountNumber);
+        Account toAccount = accountRepository.findByNumber(toAccountNumber);
+        
         if(fromAccountNumber.isEmpty() || toAccountNumber.isEmpty() || amount == 0 || description.isEmpty()){
             return new ResponseEntity<>("Verifique los parametros ingresados.", HttpStatus.FORBIDDEN);
         }
 
-        if(accountRepository.findByNumber(fromAccountNumber) == accountRepository.findByNumber(toAccountNumber)){
+        if(fromAccount == toAccount){
             return new ResponseEntity<>("Las cuentas de la transaccion son iguales.", HttpStatus.FORBIDDEN);
         }
 
-        if(accountRepository.findByNumber(fromAccountNumber) == null){
+        if(fromAccount == null){
             return new ResponseEntity<>("La cuenta de origen no existe.", HttpStatus.FORBIDDEN);
         }
 
-        if(!client.getAccounts().contains(accountRepository.findByNumber(fromAccountNumber))){
+        if(!client.getAccounts().contains(fromAccount)){
             return new ResponseEntity<>("La cuenta de origen no pertenece al cliente autencicado.", HttpStatus.FORBIDDEN);
         }
 
-        if(accountRepository.findByNumber(toAccountNumber) == null){
+        if(toAccount == null){
             return new ResponseEntity<>("La cuenta de destino no existe.", HttpStatus.FORBIDDEN);
         }
 
-        if(accountRepository.findByNumber(fromAccountNumber).getBalance() < amount){
+        if(fromAccount.getBalance() < amount){
             return new ResponseEntity<>("No dispone del saldo suficiente para realizar la transaccion.", HttpStatus.FORBIDDEN);
         }
 
-        Transaction fromTransaction = new Transaction(TransactionType.DEBIT, -amount, description, accountRepository.findByNumber(fromAccountNumber));
-        Transaction toTransaction = new Transaction(TransactionType.CREDIT, amount, description, accountRepository.findByNumber(toAccountNumber));
+        Transaction fromTransaction = new Transaction(TransactionType.DEBIT, -amount, description, fromAccount);
+        Transaction toTransaction = new Transaction(TransactionType.CREDIT, amount, description, toAccount);
         transactionRepository.save(fromTransaction);
         transactionRepository.save(toTransaction);
-
-        Account fromAccount = accountRepository.findByNumber(fromAccountNumber);
-        Account toAccount = accountRepository.findByNumber(toAccountNumber);
+        
         fromAccount.setBalance(fromAccount.getBalance()-amount);
         toAccount.setBalance(toAccount.getBalance()+amount);
         accountRepository.save(fromAccount);
