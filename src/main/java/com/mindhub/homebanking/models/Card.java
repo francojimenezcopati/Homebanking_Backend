@@ -46,13 +46,13 @@ public class Card {
         this.thruDate = thruDate;
     }
 
-    public Card(Client client, CardType type, CardColor color, String number) {
+    public Card(Client client, CardType type, CardColor color, String number, int cvv) {
         this.client = client;
         this.type = type;
         this.color = color;
         this.cardHolder = client.getFullName();
         this.number = number;
-        this.cvv = ((int)((Math.random()*(999-100))+100));
+        this.cvv = cvv;
         this.fromDate = LocalDateTime.now();
         this.thruDate = LocalDateTime.now().plusYears(5);
     }

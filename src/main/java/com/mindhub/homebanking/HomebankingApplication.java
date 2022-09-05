@@ -30,10 +30,10 @@ public class HomebankingApplication {
             Client client1 = new Client( "Melba",   "Morel", "melba@mindhub.com", passwordEncoder.encode("123"));
             Client client2 = new Client( "Irene",   "Saenz", "irene@mindhub.com", passwordEncoder.encode("321"));
 
-            Account account1 = new Account(   "VIN00199999", LocalDateTime.now(),5000);
-            Account account2 = new Account(   "VIN00299999", LocalDateTime.now().plusDays(1), 7500);
-            Account account3 = new Account(   "VIN00399999", LocalDateTime.now(), 9000);
-            Account account4 = new Account(   "VIN00499999", LocalDateTime.now().plusDays(1), 6500);
+            Account account1 = new Account(   "VIN00199999", LocalDateTime.now(),5000, AccountType.AHORRO);
+            Account account2 = new Account(   "VIN00299999", LocalDateTime.now().plusDays(1), 7500, AccountType.CORRIENTE);
+            Account account3 = new Account(   "VIN00399999", LocalDateTime.now(), 9000, AccountType.CORRIENTE);
+            Account account4 = new Account(   "VIN00499999", LocalDateTime.now().plusDays(1), 6500, AccountType.AHORRO);
 
             client1.addAccount(account1);
             client1.addAccount(account2);
@@ -65,9 +65,9 @@ public class HomebankingApplication {
             transactionRepository.save(transaction7);
             transactionRepository.save(transaction8);
 
-            Loan loan1 = new Loan("Hipotecario",500000, Arrays.asList(12,24,36,48,60));
-            Loan loan2 = new Loan("Personal",100000, Arrays.asList(6,12,24));
-            Loan loan3 = new Loan("Automotriz",300000, Arrays.asList(6,12,24,36));
+            Loan loan1 = new Loan("Hipotecario",500000, Arrays.asList(12,24,36,48,60), 25);
+            Loan loan2 = new Loan("Personal",100000, Arrays.asList(6,12,24),50);
+            Loan loan3 = new Loan("Automotriz",300000, Arrays.asList(6,12,24,36),75);
 
             loanRepository.save(loan1);
             loanRepository.save(loan2);

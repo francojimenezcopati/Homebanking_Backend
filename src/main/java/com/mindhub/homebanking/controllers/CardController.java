@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.mindhub.homebanking.utils.CardUtils.generateCVV;
 import static com.mindhub.homebanking.utils.CardUtils.generateCardNumber;
 
 @RestController
@@ -26,24 +27,34 @@ public class CardController {
     @Autowired
     private ClientRepository clientRepository;
 
-    @RequestMapping("/cards")
+    @GetMapping("/cards")
     public List<CardDTO> getCards(){
         return this.cardRepository.findAll().stream().map(CardDTO::new).collect(Collectors.toList());
     }
 
-    @RequestMapping ("/cards/{id}")
+    @GetMapping ("/cards/{id}")
     public CardDTO getCard(@PathVariable Long id)
     {
         return this.cardRepository.findById(id).map(CardDTO::new).orElse(null);
     }
 
-    @RequestMapping(path= "/clients/current/cards", method = RequestMethod.POST) /////////////////////////////////////////////////////////////////////////// problema
+    @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> createCard(Authentication authentication, @RequestParam CardType cardType, @RequestParam CardColor cardColor){
         Client client=this.clientRepository.findByEmail(authentication.getName());
         if (cardRepository.findByClientAndType(client, cardType).size()>=3) {
             return new ResponseEntity<>("403 forbidden", HttpStatus.FORBIDDEN);
         }
-        cardRepository.save(new Card(client, cardType, cardColor, generateCardNumber(1000,9999, cardRepository)));
+        cardRepository.save(new Card(client, cardType, cardColor, generateCardNumber(cardRepository),generateCVV()));
         return new ResponseEntity<>("201 created",HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/clients/current/cards")
+    public ResponseEntity<Object> deleteCard(Authentication authentication, @RequestParam String number){
+        Client client=this.clientRepository.findByEmail(authentication.getName());
+        //verificar que la tarjeta pertenezca al cliente
+        if(!client.getCards().contains(cardRepository.findByNumber(number)))
+            return new ResponseEntity<>("You don't own this card", HttpStatus.FORBIDDEN);
+        cardRepository.delete(cardRepository.findByNumber(number));
+        return new ResponseEntity<>("Successfully deleted", HttpStatus.ACCEPTED);
     }
 }

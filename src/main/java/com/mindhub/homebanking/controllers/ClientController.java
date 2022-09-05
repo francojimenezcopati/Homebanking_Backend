@@ -29,25 +29,25 @@ public class ClientController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @RequestMapping("/clients") // Cuando se mete esta url, ejecuta el siguiente metodo
+    @GetMapping("/clients") // Cuando se mete esta url, ejecuta el siguiente metodo
     public List<ClientDTO> getClients() {
         return this.clientRepository.findAll().stream() // convierte de variable "lista" a "stream" para poder usar el .map
                 .map(ClientDTO::new)// Convierte 1 por 1 a los clientes en objetos de la clase ClientDTO
                 .collect(toList());// esto pasa devuelta de variable "stream" a "lista"
     }
 
-    @RequestMapping("/clients/{id}")
+    @GetMapping("/clients/{id}")
     public ClientDTO getClients(@PathVariable Long id) {//g
         return this.clientRepository.findById(id).map(ClientDTO::new).orElse(null);
     }
 
-    @RequestMapping("/clients/current")
+    @GetMapping("/clients/current")
     public ClientDTO getClient(Authentication authentication){
         Client client = this.clientRepository.findByEmail(authentication.getName());
         return new ClientDTO(client);
     }
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping("/clients")
 
     public ResponseEntity<Object> register(
 
@@ -64,7 +64,7 @@ public class ClientController {
 
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         clientRepository.save(client);
-        Account account = new Account(generateAccountNumber(10000000,99999999, accountRepository),0);
+        Account account = new Account(generateAccountNumber(accountRepository),0);
         client.addAccount(account);
         accountRepository.save(account);
         return new ResponseEntity<>(HttpStatus.CREATED);

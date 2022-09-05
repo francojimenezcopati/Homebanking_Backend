@@ -1,6 +1,6 @@
 package com.mindhub.homebanking.controllers;
 
-import com.mindhub.homebanking.dtos.CardDTO;
+
 import com.mindhub.homebanking.dtos.TransactionDTO;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.AccountRepository;
@@ -26,19 +26,19 @@ public class TransactionController {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @RequestMapping("/transactions")
+    @GetMapping("/transactions")
     public List<TransactionDTO> getTransactions(){
         return this.transactionRepository.findAll().stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
-    @RequestMapping("/transactions/{id}")
+    @GetMapping("/transactions/{id}")
     public TransactionDTO getTransaction(@PathVariable Long id)
     {
         return this.transactionRepository.findById(id).map(TransactionDTO::new).orElse(null);
     }
 
     @Transactional
-    @RequestMapping(path = "/transactions", method = RequestMethod.POST)
+    @PostMapping("/transactions")
     public ResponseEntity<Object> createCard(Authentication authentication, @RequestParam String fromAccountNumber
             , @RequestParam String toAccountNumber, @RequestParam double amount , @RequestParam String description){
 

@@ -1,12 +1,13 @@
 package com.mindhub.homebanking.utils;
 
 import com.mindhub.homebanking.repositories.CardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public final class CardUtils {
-    public CardUtils(){}
-    public static String generateCardNumber(int min,int max,CardRepository cardRepository){
+    private CardUtils(){}
+    public static String generateCardNumber(CardRepository cardRepository){
         String number;
+        int min = 1000;
+        int max = 9999;
         int flag=0;
         do {
             int value1 = (int) ((Math.random() * (max - min)) + min);
@@ -19,5 +20,8 @@ public final class CardUtils {
             }
         }while (flag != 1) ;
         return number;
+    }
+    public static int generateCVV() {
+        return (int) ((Math.random() * (999 - 100)) + 100);
     }
 }

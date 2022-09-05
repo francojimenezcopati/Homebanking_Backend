@@ -1,13 +1,14 @@
 package com.mindhub.homebanking.utils;
 
 import com.mindhub.homebanking.repositories.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public final class AccountUtils {
 
-    public AccountUtils(){}
-    public static String generateAccountNumber(int min,int max, AccountRepository accountRepository){
+    private AccountUtils(){}
+    public static String generateAccountNumber(AccountRepository accountRepository){
         String number;
+        int min= 10000000;
+        int max= 99999999;
         int flag=0;
         do {
             int value = (int) ((Math.random() * (max - min)) + min);
