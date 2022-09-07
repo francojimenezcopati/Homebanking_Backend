@@ -20,6 +20,8 @@ public class ClientLoanDTO {
         this.name = clientLoan.getLoan().getName();
     }
 
+
+
     public long getId() {
         return id;
     }

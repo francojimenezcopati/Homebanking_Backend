@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.dtos.AccountDTO;
+import com.mindhub.homebanking.dtos.ClientLoanDTO;
 import com.mindhub.homebanking.dtos.LoanApplicationDTO;
 import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.*;
@@ -32,6 +33,12 @@ public class LoanController {
     @GetMapping("/loans")
     public List<LoanDTO> getLoans(){
         return this.loanRepository.findAll().stream().map(LoanDTO::new).collect(Collectors.toList());
+    }
+
+    @GetMapping(path = "client/current/loans")
+    public List<ClientLoanDTO> getCurrentClientLoans(Authentication authentication){
+        Client client = clientRepository.findByEmail(authentication.getName());
+        return client.getClientLoans().stream().map(ClientLoanDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
@@ -73,7 +80,7 @@ public class LoanController {
         Transaction transaction = new Transaction(TransactionType.CREDIT,amount,description,account);
         transactionRepository.save(transaction);
 
-        ClientLoan clientLoan = new ClientLoan(amount+(amount*(interest/100)),payments,client,loan);
+        ClientLoan clientLoan = new ClientLoan(amount+(amount*((double)interest/100)),payments,client,loan);
         clientLoanRepository.save(clientLoan);
 
         account.setBalance(account.getBalance()+amount);

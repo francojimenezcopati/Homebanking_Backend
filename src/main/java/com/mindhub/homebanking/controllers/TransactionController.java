@@ -13,7 +13,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,7 +43,7 @@ public class TransactionController {
 
     @Transactional
     @PostMapping("/transactions")
-    public ResponseEntity<Object> createCard(Authentication authentication, @RequestParam String fromAccountNumber
+    public ResponseEntity<Object> createtransaction(Authentication authentication, @RequestParam String fromAccountNumber
             , @RequestParam String toAccountNumber, @RequestParam double amount , @RequestParam String description){
 
         Client client = this.clientRepository.findByEmail(authentication.getName());
@@ -82,5 +86,21 @@ public class TransactionController {
         accountRepository.save(toAccount);
 
         return new ResponseEntity<>("201 Created", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/transactions/get")
+    public ResponseEntity<Object> createtransaction(Authentication authentication, @RequestParam String number, @RequestParam String fromDate, @RequestParam String thruDate){
+        Client client = this.clientRepository.findByEmail(authentication.getName());
+        Account account = accountRepository.findByNumber(number);
+
+        LocalDate from = LocalDate.parse ( fromDate ) ;
+        LocalDate thru = LocalDate.parse ( thruDate ) ;
+        LocalTime localTime = LocalTime.MIDNIGHT ;
+        LocalDateTime fromDateTime = LocalDateTime.of ( from , localTime ) ;
+        LocalDateTime thruDateTime = LocalDateTime.of ( thru , localTime ) ;
+
+        Set<TransactionDTO> transactionDTOSet = transactionRepository.findByDateBetween(fromDateTime, thruDateTime).stream()
+                .filter(transaction -> transaction.getAccount().equals(account)).map(TransactionDTO::new).collect(Collectors.toSet());
+        return new ResponseEntity<>("200 OK", HttpStatus.OK);
     }
 }
