@@ -40,7 +40,7 @@ var app = new Vue({
             })
         },
         create: function(){
-            axios.post('/api/clients/current/accounts', "type=AHORRO")
+            axios.post('/api/clients/current/accounts', "accountType=AHORRO")
             .then(response =>
             window.location.reload())
             .catch((error) =>{
