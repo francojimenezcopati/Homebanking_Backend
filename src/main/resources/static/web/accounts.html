@@ -30,18 +30,30 @@
                         </a>
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a href="/web/accounts.html" class="nav-link active">
-                                <i class="bi bi-inboxes"></i>
-                                Accounts
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/web/cards.html" class="nav-link link-dark">
-                                <i class="bi bi-credit-card"></i>
-                                Cards
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="/web/accounts.html" class="nav-link active">
+                                    <i class="bi bi-inboxes"></i>
+                                    Accounts
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/web/cards.html" class="nav-link link-dark">
+                                    <i class="bi bi-credit-card"></i>
+                                    Cards
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/web/transfers.html" class="nav-link link-dark">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Transfers
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/web/loan-application.html" class="nav-link link-dark">
+                                    <i class="bi bi-cash"></i>
+                                    Loans
+                                </a>
+                            </li>
                         </ul>
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto">
@@ -57,12 +69,13 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <h2 class="display-6">Accounts</h2>
+                            <h2 class="display-6 subtitle">Accounts</h2>
+                            <button v-if="clientAccounts != null && clientAccounts.length < 3" v-on:click="create" id="create" class="btn btn-sm btn-outline-success">Create</button>
                         </div>
                     </div>
                     <div class="row">
-                        <div v-for="account in clientInfo.accounts" class="col-12 col-md-3 mt-2">
-                            <a class="account-link" v-bind:href="'http://localhost:8080/web/account.html?id='+account.id">
+                        <div v-for="account in clientAccounts" class="col-12 col-md-3 mt-2">
+                            <a class="account-link" v-bind:href="'/web/account.html?id='+account.id">
                                 <div class="card border-0 account">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ account.number }}</h5>
@@ -76,6 +89,7 @@
                     <div class="row mt-3">
                         <div class="col">
                             <h2 class="display-6">Loans</h2>
+                            <span class="small" v-if="clientInfo.loan != null && clientInfo.loans.length <= 0">No loans</span>
                         </div>
                     </div>
                     <div class="row">

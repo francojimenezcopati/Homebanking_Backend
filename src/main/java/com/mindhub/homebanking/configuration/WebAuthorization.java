@@ -13,14 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @EnableWebSecurity
+
 @Configuration
-public class WebAuthorization extends WebSecurityConfigurerAdapter{
+public class WebAuthorization extends WebSecurityConfigurerAdapter {
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/web/index.html","/web/css/","/web/img/","/web/js/").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
-                .antMatchers("/").hasAuthority("CLIENT");
+                .antMatchers("/web/", "/api/clients", "/api/clients/current", "/api/accounts/","/api/loans").hasAuthority("CLIENT")
+                .antMatchers("/").hasAuthority("ADMIN");
 
         http.formLogin()
                 .usernameParameter("email")

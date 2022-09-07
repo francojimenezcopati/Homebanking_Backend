@@ -32,18 +32,30 @@
                         </a>
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a href="/web/accounts.html" class="nav-link link-dark">
-                                <i class="bi bi-inboxes"></i>
-                                Accounts
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/web/cards.html" class="nav-link active">
-                                <i class="bi bi-credit-card"></i>
-                                Cards
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="/web/accounts.html" class="nav-link link-dark">
+                                    <i class="bi bi-inboxes"></i>
+                                    Accounts
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/web/cards.html" class="nav-link active">
+                                    <i class="bi bi-credit-card"></i>
+                                    Cards
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/web/transfers.html" class="nav-link link-dark">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Transfers
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/web/loan-application.html" class="nav-link link-dark">
+                                    <i class="bi bi-cash"></i>
+                                    Loans
+                                </a>
+                            </li>
                         </ul>
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto">
@@ -59,8 +71,9 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <h2 class="display-6">Debit Cards</h2>
-                            <span class="small" v-if="debitCards.length <= 0">No debit cards</span>
+                            <h2 class="display-6 subtitle">Debit Cards</h2>
+                            <a v-if="clientInfo.cards != null && clientInfo.cards.length < 6" href="create-cards.html" id="create" class="btn btn-sm btn-outline-success">Create</a>
+                            <div v-if="debitCards.length <= 0"><span class="small">No debit cards</span></div>
                         </div>
                     </div>
                     <div class="row">

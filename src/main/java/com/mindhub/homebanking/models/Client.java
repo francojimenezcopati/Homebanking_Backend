@@ -47,6 +47,10 @@ public class Client {
         this.password=password;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public String getPassword() {
         return password;
     }
