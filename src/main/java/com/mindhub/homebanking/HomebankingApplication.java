@@ -15,14 +15,14 @@ import java.util.Arrays;
 
 @SpringBootApplication
 public class HomebankingApplication {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    /*@Autowired
+    private PasswordEncoder passwordEncoder;*/
     public static void main(String[] args) {
         SpringApplication.run(HomebankingApplication.class, args);
         System.out.println("Bienvenido a mi primer servidor");
     }
 
-    @Bean // Guarda el metodo como una libreria general que se puede usar en cualquier lado
+    /*@Bean // Guarda el metodo como una libreria general que se puede usar en cualquier lado
     public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository,
                                       LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
         return (args) -> // deavuevle los argumentos que le pase a continuacion
@@ -92,5 +92,5 @@ public class HomebankingApplication {
             cardRepository.save(card3);
 
         };
-    }
+    }*/
 }

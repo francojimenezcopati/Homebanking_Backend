@@ -89,7 +89,7 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions/get")
-    public ResponseEntity<Object> createtransaction(Authentication authentication, @RequestParam String number, @RequestParam String fromDate, @RequestParam String thruDate){
+    public Set<TransactionDTO> getTransactionsXToY(Authentication authentication, @RequestParam String number, @RequestParam String fromDate, @RequestParam String thruDate){
         Client client = this.clientRepository.findByEmail(authentication.getName());
         Account account = accountRepository.findByNumber(number);
 
@@ -101,6 +101,6 @@ public class TransactionController {
 
         Set<TransactionDTO> transactionDTOSet = transactionRepository.findByDateBetween(fromDateTime, thruDateTime).stream()
                 .filter(transaction -> transaction.getAccount().equals(account)).map(TransactionDTO::new).collect(Collectors.toSet());
-        return new ResponseEntity<>("200 OK", HttpStatus.OK);
+        return transactionDTOSet;
     }
 }

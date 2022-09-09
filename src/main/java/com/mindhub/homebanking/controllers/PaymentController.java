@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @RestController
 @RequestMapping("/api")
 public class PaymentController {
@@ -30,7 +32,7 @@ public class PaymentController {
 
     @GetMapping("/payments")
     public List<PaymentDTO> getPayments(){
-        return this.paymentRepository.findAll().stream().map(PaymentDTO::new).collect(Collectors.toList());
+        return this.paymentRepository.findAll().stream().map(PaymentDTO::new).collect(toList());
     }
 
     @Transactional
@@ -64,10 +66,11 @@ public class PaymentController {
         Transaction fromTransaction = new Transaction(TransactionType.DEBIT, -amount, description, account);
         transactionRepository.save(fromTransaction);
 
+        Payment payment = new Payment(accountNumber,cardNumber,CVV,amount,description);
+        paymentRepository.save(payment);
+
         account.setBalance(account.getBalance()-amount);
         accountRepository.save(account);
-
-
 
         return new ResponseEntity<>("201 Created", HttpStatus.CREATED);
     }
