@@ -1,6 +1,5 @@
 package com.mindhub.homebanking.repositories;
 
-import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.CardType;
 import com.mindhub.homebanking.models.Client;

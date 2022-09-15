@@ -39,7 +39,7 @@
 }
 
 .loan{
-    background: linear-gradient(45deg,#ee09cf,#0026ff);
+    background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     color: white;
 }
 
